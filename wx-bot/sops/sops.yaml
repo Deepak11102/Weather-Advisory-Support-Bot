@@ -1,0 +1,120 @@
+version: 1
+tags:   
+  cycling:         {desc: "cycling, bike or two-wheeler/scooter riding or commuting", kw: [bike, biking, cycl, scooter, two-wheeler, motorbike, motorcycle]}
+  running:         {desc: "running, jogging, outdoor workout or sport", kw: [run, jog, workout, exercise, football, cricket]}
+  hiking:          {desc: "hiking, trekking, trails, outdoor adventure", kw: [hik, trek, trail]}
+  driving:         {desc: "travel by car, bus, train, flight or road trip", kw: [drive, driving, road trip, travel, commute, flight, train]}
+  child_outdoor:   {desc: "taking children outdoors (park, playground, school)", kw: [kid, child, son, daughter, park]}
+  elderly_outdoor: {desc: "an elderly person walking or being outdoors", kw: [elderly, grandpa, grandma, grandfather, grandmother, old man]}
+  pet_walk:        {desc: "walking a dog or other pet outdoors", kw: [dog, pet, puppy]}
+  picnic:          {desc: "picnic or relaxed leisure outing; 'is it a nice day for...'", kw: [picnic, outing, barbecue]}
+  event:           {desc: "outdoor event, wedding, gathering, match", kw: [wedding, event, gathering, party]}
+  general_weather: {desc: "general question about current conditions or what to carry", kw: [weather, umbrella, jacket]}
+sops:
+- id: RAIN-SYS-01
+  title: Active heavy-rain system
+  category: system
+  severity: critical
+  lead: true            
+  tags: ["*"]           
+  when:                
+    any:
+    - {field: precipitation.day_sum, op: ">=", value: 64.5}
+    - all:
+      - {field: precipitation.window_sum, op: ">=", value: 30}
+      - {field: pressure_msl.current, op: "<=", value: 1000}
+    - all:
+      - {field: weather_code.window_max, op: ">=", value: 95}
+      - {field: precipitation.window_sum, op: ">=", value: 15}
+  advice: "A heavy-rain system is affecting this location. Treat any outdoor plan as high risk: postpone non-essential outdoor activity, avoid waterlogged roads and low-lying areas, and check official IMD/local alerts before stepping out."
+- id: WIND-CYC-01
+  title: Strong wind, two-wheelers
+  category: exercise
+  severity: high
+  tags: [cycling]
+  when: {any: [{field: wind_speed_10m.window_max, op: ">=", value: 40}, {field: wind_gusts_10m.window_max, op: ">=", value: 55}]}
+  advice: "Strong wind is a safety risk, not just a comfort issue, for cycling or two-wheelers. Do not ride; use another mode of transport or wait for winds to ease."
+- id: WIND-CYC-02
+  title: Moderate wind, two-wheelers
+  category: exercise
+  severity: moderate
+  tags: [cycling]
+  when: {all: [{field: wind_speed_10m.window_max, op: ">=", value: 25}, {field: wind_speed_10m.window_max, op: "<", value: 40}]}
+  advice: "Wind is noticeable. Ride only if experienced, avoid exposed roads and bridges, and keep extra distance from vehicles."
+- id: UV-EX-01
+  title: Very high UV, exercise
+  category: exercise
+  severity: high
+  tags: [running, cycling, hiking, child_outdoor]
+  when: {field: uv_index.window_max, op: ">=", value: 8}
+  advice: "UV is very high. Avoid unprotected outdoor exercise around midday; use sunscreen, a hat and sunglasses, and reschedule to early morning or evening."
+- id: HEAT-EX-01
+  title: Dangerous heat index
+  category: exercise
+  severity: high
+  tags: [running, cycling, hiking]
+  when: {field: apparent_temperature.window_max, op: ">=", value: 35}
+  advice: "The feels-like temperature is in the heat-stress range. Skip strenuous outdoor exercise now; if you must go, go early morning, carry water and stop at any sign of dizziness."
+- id: HIKE-01
+  title: Wet or stormy trails
+  category: exercise
+  severity: high
+  tags: [hiking]
+  when: {any: [{field: precipitation.window_sum, op: ">=", value: 10}, {field: weather_code.window_max, op: ">=", value: 95}]}
+  advice: "Trails are likely slippery with a risk of flash runoff or lightning. Do not start a hike; choose a dry day."
+- id: TRV-RAIN-01
+  title: Likely rain, travel
+  category: travel
+  severity: moderate
+  tags: [driving, cycling]
+  when: {field: precipitation_probability.window_max, op: ">=", value: 70}
+  advice: "Rain is likely. Expect possible delays, allow extra travel time and check for alerts before departure."
+- id: TRV-VIS-01
+  title: Heavy rain or low visibility, travel
+  category: travel
+  severity: high
+  tags: [driving]
+  when: {any: [{field: precipitation.window_sum, op: ">=", value: 20}, {field: visibility.window_min, op: "<", value: 1000}]}
+  advice: "Heavy rain or poor visibility is forecast for the journey. Postpone non-essential road travel; if you must go, drive slowly with headlights on and avoid flooded stretches."
+- id: KID-01
+  title: Heat or UV, children
+  category: vulnerable
+  severity: moderate
+  tags: [child_outdoor]
+  when: {any: [{field: apparent_temperature.window_max, op: ">=", value: 30}, {field: uv_index.window_max, op: ">=", value: 4}]}
+  advice: "Children overheat and burn quickly. Keep outdoor time short and in shade, use sunscreen, offer water often, and prefer early morning or in the evening."
+- id: ELD-01
+  title: Heat or cold, elderly
+  category: vulnerable
+  severity: moderate
+  tags: [elderly_outdoor]
+  when: {any: [{field: apparent_temperature.window_max, op: ">=", value: 33}, {field: temperature_2m.window_min, op: "<=", value: 8}]}
+  advice: "Extreme temperatures are riskier for older adults. Keep the outing short, choose the mildest hours, dress for the conditions and have someone check in."
+- id: PET-01
+  title: Hot pavement, pets
+  category: vulnerable
+  severity: moderate
+  tags: [pet_walk]
+  when: {field: apparent_temperature.window_max, op: ">=", value: 34}
+  advice: "Pavement can burn paws and pets overheat. Walk in early morning or after sunset, stay on grass or shade, and bring water."
+- id: PICNIC-01
+  title: Good picnic conditions (fuzzy comfort)
+  category: leisure
+  severity: info
+  tags: [picnic]
+  when: {all: [{field: precipitation_probability.window_max, op: "<", value: 30}, {field: wind_speed_10m.window_max, op: "<", value: 25}, {field: apparent_temperature.window_max, op: "<", value: 34}, {field: apparent_temperature.window_min, op: ">=", value: 16}, {field: uv_index.window_max, op: "<", value: 8}]}
+  advice: "Conditions look comfortable for a picnic: dry, light wind and a moderate temperature. Pack water and enjoy."
+- id: PICNIC-02
+  title: Marginal picnic conditions
+  category: leisure
+  severity: moderate
+  tags: [picnic, event]
+  when: {any: [{field: precipitation_probability.window_max, op: ">=", value: 40}, {field: wind_speed_10m.window_max, op: ">=", value: 30}, {field: apparent_temperature.window_max, op: ">=", value: 35}]}
+  advice: "The day is borderline for an outdoor gathering. Have a covered backup plan, avoid open ground in wind, and decide close to the time."
+- id: GEN-01
+  title: Plain conditions report
+  category: general
+  severity: info
+  tags: [general_weather]
+  when: {all: []}      
+  advice: "Here are the current conditions from live data. This is a report only; for activity-specific safety guidance, ask about a specific activity."
