@@ -12,7 +12,7 @@
 
 **[🌐 Live Demo](PASTE_YOUR_STREAMLIT_URL_HERE)** · **[📋 SOP file](sops/sops.yaml)** · **[🧪 Eval results](EVAL_RESULTS.md)**
 
-<!-- Add a screenshot: save it as docs/screenshot.png, then uncomment the next line -->
+https://weather-advisory-support-bot-nxtjppuraycrvthtwmzena.streamlit.app/
 <!-- <img src="docs/screenshot.png" width="720" alt="SkyGuard chat UI"> -->
 
 </div>
