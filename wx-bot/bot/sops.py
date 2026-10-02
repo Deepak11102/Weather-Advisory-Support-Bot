@@ -26,7 +26,6 @@ def load(path=None):
     return cat
 
 def required_vars(cat):
-    """Weather variables to request = whatever the SOPs reference (so a new SOP needs no fetch-code change)."""
     return sorted({f.split(".")[0] for s in cat["sops"] for f in fields(s["when"])})
 
 def ev(node, facts):
