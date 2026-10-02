@@ -197,6 +197,3 @@ Run `python -m evals.run`. It prints PASS, FAIL or SKIP for each case and writes
 - Time handling understands *now, today, this evening, tomorrow*. Exact hours such as "at 4pm" are not yet used.
 - Thresholds are placeholders for the policy owners to tune, and no official IMD alert feed is used, only forecast numbers.
 
-
-
-<div align="center">Built with LangGraph · Groq · Open-Meteo · Streamlit</div>
