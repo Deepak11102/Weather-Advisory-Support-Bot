@@ -46,7 +46,7 @@ sops:
   category: exercise
   severity: high
   tags: [running, cycling, hiking, child_outdoor]
-  when: {field: uv_index.window_max, op: ">=", value: 8}
+  when: {field: uv_index.window_max, op: ">=", value: 6}
   advice: "UV is very high. Avoid unprotected outdoor exercise around midday; use sunscreen, a hat and sunglasses, and reschedule to early morning or evening."
 - id: HEAT-EX-01
   title: Dangerous heat index
