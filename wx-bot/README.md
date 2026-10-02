@@ -10,9 +10,8 @@
 ![Streamlit](https://img.shields.io/badge/UI-Streamlit-FF4B4B?logo=streamlit&logoColor=white)
 ![Open-Meteo](https://img.shields.io/badge/Data-Open--Meteo-0ea5e9)
 
-**[🌐 Live Demo](PASTE_YOUR_STREAMLIT_URL_HERE)** · **[📋 SOP file](sops/sops.yaml)** · **[🧪 Eval results](EVAL_RESULTS.md)**
+**[🌐 Live Demo](https://weather-advisory-support-bot-nxtjppuraycrvthtwmzena.streamlit.app/)** · **[📋 SOP file](sops/sops.yaml)** · **[🧪 Eval results](EVAL_RESULTS.md)**
 
-https://weather-advisory-support-bot-nxtjppuraycrvthtwmzena.streamlit.app/
 <!-- <img src="docs/screenshot.png" width="720" alt="SkyGuard chat UI"> -->
 
 </div>
