@@ -61,13 +61,12 @@ python -m venv .venv
 # 2. Install dependencies
 pip install -r requirements.txt
 
-# 3. Add your free Groq key (https://console.groq.com/keys)
-copy .env.example .env          # macOS / Linux: cp .env.example .env
-# then edit .env:  GROQ_API_KEY=gsk_...
+# 3. Adding Groq API Key
+copy .env.example .env          
 
 # 4. Run the evals, then the app
 python -m evals.run
-streamlit run app.py            # opens http://localhost:8501
+streamlit run app.py          
 ```
 
 **Configuration** (`.env`, which is git-ignored so no key is ever committed):
